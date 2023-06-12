@@ -13,7 +13,7 @@
 
 # IOT1026-Assignment-4
 
-Write a description of the project here and don't forget to update the badges.  
+Project IRobot is an object robot possessing specific attributes pertaining to movement within the X and Y Cartesian plane. The user is granted the option to select from six discrete instructions to indicate their desired robot movement, comprising "on," "off," "north," "south," "west," and "east."  
 
 [Assignment Instructions](docs/instructions.md)  
 [How to start coding](docs/how-to-use.md)  
