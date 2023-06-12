@@ -1,6 +1,8 @@
-﻿namespace Assignment.InterfaceCommand;
-
-public interface RobotCommand
+﻿using Assignment;
+namespace Assignment.InterfaceCommand
 {
-    void Run(Robot robot); // Interfaces are public and abstract by default.
+    public interface IRobotCommand
+    {
+        void Run(Robot robot);
+    }
 }
