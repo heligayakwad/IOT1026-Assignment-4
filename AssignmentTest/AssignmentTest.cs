@@ -1,33 +1,135 @@
-﻿using Assignment;
-using Assignment.AbstractCommand; // Change to Assignment.InterfaceCommand when rdy
+using NUnit.Framework;
+using System;
 
 namespace AssignmentTest
 {
-    [TestClass]
-    public class AssignmentTests
+    [TestFixture]
+    public class RobotTests
     {
-        [TestMethod]
-        public void PropertiesTest()
+        [Test]
+        public void PowerTest()
         {
-            Robot robot1 = new();
-            Assert.AreEqual(robot1.NumCommands, 6);
-            const int ExpectedCommands = 10;
-            Robot robot2 = new(ExpectedCommands);
-            Assert.AreEqual(robot2.NumCommands, ExpectedCommands);
+            Robot testRobot = new Robot();
+            Assert.IsFalse(testRobot.IsPowered);
 
-            Assert.AreEqual(robot1.IsPowered, false);
-            robot1.IsPowered = true;
-            Assert.AreEqual(robot1.IsPowered, true);
+            testRobot.IsPowered = true;
+            Assert.IsTrue(testRobot.IsPowered);
 
-            Assert.AreEqual(robot1.X, 0);
-            // Moves the robot can move even though it is off!!
-            // This is very bad! Not good encapsulation
-            robot1.X = -5;
-            Assert.AreEqual(robot1.X, -5);
+            testRobot.IsPowered = false;
+            Assert.IsFalse(testRobot.IsPowered);
+        }
 
-            Assert.AreEqual(robot1.Y, 0);
-            robot1.Y = -5;
-            Assert.AreEqual(robot1.Y, -5);
+        [Test]
+        public void WestCommandTest()
+        {
+            Robot testRobot = new Robot();
+            Assert.AreEqual(0, testRobot.X);
+
+            testRobot.LoadCommand(new WestCommand());
+            testRobot.Run();
+            Assert.AreEqual(0, testRobot.X);
+
+            testRobot.IsPowered = true;
+            testRobot.LoadCommand(new WestCommand());
+            testRobot.Run();
+            Assert.AreEqual(-2, testRobot.X);
+
+            testRobot.Run();
+            Assert.AreEqual(-4, testRobot.X);
+        }
+
+        [Test]
+        public void EastCommandTest()
+        {
+            Robot testRobot = new Robot();
+            Assert.AreEqual(0, testRobot.X);
+
+            testRobot.LoadCommand(new EastCommand());
+            testRobot.Run();
+            Assert.AreEqual(0, testRobot.X);
+
+            testRobot.IsPowered = true;
+            testRobot.LoadCommand(new EastCommand());
+            testRobot.Run();
+            Assert.AreEqual(2, testRobot.X);
+
+            testRobot.Run();
+            Assert.AreEqual(4, testRobot.X);
+        }
+
+        [Test]
+        public void SouthCommandTest()
+        {
+            Robot testRobot = new Robot();
+            Assert.AreEqual(0, testRobot.Y);
+
+            testRobot.LoadCommand(new SouthCommand());
+            testRobot.Run();
+            Assert.AreEqual(0, testRobot.Y);
+
+            testRobot.IsPowered = true;
+            testRobot.LoadCommand(new SouthCommand());
+            testRobot.Run();
+            Assert.AreEqual(-2, testRobot.Y);
+
+            testRobot.Run();
+            Assert.AreEqual(-4, testRobot.Y);
+        }
+
+        [Test]
+        public void NorthCommandTest()
+        {
+            Robot testRobot = new Robot();
+            Assert.AreEqual(0, testRobot.Y);
+
+            testRobot.LoadCommand(new NorthCommand());
+            testRobot.Run();
+            Assert.AreEqual(0, testRobot.Y);
+
+            testRobot.IsPowered = true;
+            testRobot.LoadCommand(new NorthCommand());
+            testRobot.Run();
+            Assert.AreEqual(2, testRobot.Y);
+
+            testRobot.Run();
+            Assert.AreEqual(4, testRobot.Y);
+        }
+
+        [Test]
+        public void BachataCommandTest()
+        {
+            Robot testRobot = new Robot();
+            Assert.AreEqual(0, testRobot.X);
+            Assert.AreEqual(0, testRobot.Y);
+
+            testRobot.LoadCommand(new BachataCommand());
+            testRobot.Run();
+            Assert.AreEqual(0, testRobot.X);
+            Assert.AreEqual(0, testRobot.Y);
+
+            testRobot.IsPowered = true;
+            testRobot.LoadCommand(new BachataCommand());
+            testRobot.Run();
+            Assert.AreEqual(-6, testRobot.X);
+            Assert.AreEqual(0, testRobot.Y);
         }
     }
-}
+
+    public class RobotTester
+    {
+        public static void Main()
+        {
+            Robot robot = new Robot();
+
+            Console.WriteLine("Enter commands for the robot (type 'exit' to quit):");
+
+            string input = string.Empty;
+            while (input.ToLower() != "exit")
+            {
+                Console.Write("> ");
+                input = Console.ReadLine();
+
+                if (input.ToLower() == "exit")
+                    break;
+
+                IRobotCommand
